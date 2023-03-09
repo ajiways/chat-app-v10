@@ -1,0 +1,13 @@
+export enum EIMAGE_EXTENSION {
+  JPEG = 'jpeg',
+  JPG = 'jpg',
+  PNG = 'png',
+  WEBP = 'webp',
+}
+
+export const IMAGE_EXTENSIONS = [
+  EIMAGE_EXTENSION.JPEG,
+  EIMAGE_EXTENSION.JPG,
+  EIMAGE_EXTENSION.PNG,
+  EIMAGE_EXTENSION.WEBP,
+];
