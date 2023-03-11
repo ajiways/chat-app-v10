@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ImageModule } from '../image/image.module';
+import { MessageModule } from '../message/message.module';
 import { UserModule } from '../user/user.module';
 import { RoomController } from './controllers/room.controller';
 import { RoomEntity } from './entities/room.entity';
@@ -8,7 +9,7 @@ import { UserRoomEntity } from './entities/users-rooms.entity';
 import { RoomService } from './services/room.service';
 
 const services = [RoomService];
-const modules = [ImageModule, UserModule];
+const modules = [ImageModule, UserModule, MessageModule];
 const controllers = [RoomController];
 const entities = [RoomEntity, UserRoomEntity];
 

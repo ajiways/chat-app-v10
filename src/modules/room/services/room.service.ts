@@ -6,13 +6,13 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
-import { In, Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { ImageServiceInterface } from '../../image/interfaces/image.service.interface';
 import { ImageService } from '../../image/services/image.service';
+import { MessageServiceInterface } from '../../message/interfaces/message.service.interface';
+import { MessageService } from '../../message/services/message.service';
 import { UserPreviewDto } from '../../user/dto/user-preview.dto';
 import { UserEntity } from '../../user/entities/user.entity';
-import { UserServiceInterface } from '../../user/interfaces/user.service.interface';
-import { UserService } from '../../user/services/user.service';
 import { CreateRoomDto } from '../dto/create-room.dto';
 import { RoomPreviewDto } from '../dto/room.preview.dto';
 import { UpdateRoomDto } from '../dto/update-room.dto';
@@ -26,8 +26,8 @@ export class RoomService implements RoomServiceInterface {
   @Inject(ImageService)
   private readonly imageService: ImageServiceInterface;
 
-  @Inject(UserService)
-  private readonly userService: UserServiceInterface;
+  @Inject(MessageService)
+  private readonly messageService: MessageServiceInterface;
 
   @InjectRepository(UserRoomEntity)
   private readonly userRoomRepository: Repository<UserRoomEntity>;
@@ -140,8 +140,10 @@ export class RoomService implements RoomServiceInterface {
   private async getRoomPreview(roomId: number): Promise<RoomPreviewDto> {
     const room = await this.roomRepository.findOne({
       where: { id: roomId },
-      relations: { image: true },
+      relations: { image: true, messages: true },
     });
+
+    const roomMessages = await this.messageService.getMessagesByRoom(room, 40);
 
     const roomOwner = await this.userRoomRepository.findOne({
       where: { memberStatus: EMemberStatus.OWNER, room: { id: room.id } },
@@ -149,7 +151,7 @@ export class RoomService implements RoomServiceInterface {
     });
 
     const roomUsers = await this.userRoomRepository.find({
-      where: { memberStatus: EMemberStatus.MEMBER, room: { id: room.id } },
+      where: { room: { id: room.id } },
       relations: { user: true },
     });
 
@@ -169,6 +171,8 @@ export class RoomService implements RoomServiceInterface {
           userId: ru.user.id,
         }),
       ),
+      messages: roomMessages,
+      lastMessage: roomMessages[roomMessages.length - 1] ?? null,
     } as RoomPreviewDto);
   }
 
@@ -184,5 +188,29 @@ export class RoomService implements RoomServiceInterface {
     return await Promise.all(
       allUserRoomIds.map(async (item) => await this.getRoomPreview(item.id)),
     );
+  }
+
+  public async findOne(
+    criteria: FindOptionsWhere<RoomEntity>,
+  ): Promise<RoomEntity | null> {
+    return this.roomRepository.findOneBy(criteria);
+  }
+
+  public async getAllUserIdsByRoom(room: RoomEntity): Promise<number[]> {
+    const allUserIds: { id: number }[] = await this.userRoomRepository.query(
+      `
+      SELECT ur.user_id as id FROM users_rooms ur WHERE ur.room_id = $1
+    `,
+      [room.id],
+    );
+
+    return allUserIds.map((ur) => ur.id);
+  }
+
+  public async addUserIntoRoom(
+    user: UserEntity,
+    room: RoomEntity,
+  ): Promise<void> {
+    await this.userRoomRepository.save({ user, room });
   }
 }

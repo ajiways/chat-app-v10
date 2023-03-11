@@ -16,9 +16,6 @@ export class UserEntity extends BaseEntity {
   @Column({ name: 'password', type: 'varchar', nullable: false })
   password: string;
 
-  @Column({ type: 'varchar', name: 'socket_id', nullable: true })
-  socketId: string | null;
-
   @OneToMany(() => ImageEntity, (image) => image.author)
   images: ImageEntity[];
 }

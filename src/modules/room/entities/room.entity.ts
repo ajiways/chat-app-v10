@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { BaseEntity } from '../../../common/base.entity';
 import { ImageEntity } from '../../image/entities/image.entity';
+import { MessageEntity } from '../../message/entities/message.entity';
 
 @Entity('rooms')
 export class RoomEntity extends BaseEntity {
@@ -22,4 +23,7 @@ export class RoomEntity extends BaseEntity {
 
   @Column({ type: 'varchar', length: 14, name: 'custom_id', nullable: false })
   customId: string;
+
+  @OneToMany(() => MessageEntity, (message) => message.room)
+  messages: MessageEntity[];
 }

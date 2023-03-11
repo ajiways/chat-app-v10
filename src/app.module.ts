@@ -12,8 +12,18 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ImageModule } from './modules/image/image.module';
 import { RoomModule } from './modules/room/room.module';
+import { MessageModule } from './modules/message/message.module';
+import { WebSocketModule } from './modules/websocket/websocket.module';
 
-const modules = [AuthModule, UserModule, ImageModule, RoomModule];
+const modules = [
+  AuthModule,
+  UserModule,
+  ImageModule,
+  RoomModule,
+  MessageModule,
+  WebSocketModule,
+];
+
 @Module({
   imports: [
     MulterModule.register(),
