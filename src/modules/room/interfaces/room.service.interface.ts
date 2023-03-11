@@ -13,4 +13,5 @@ export interface RoomServiceInterface {
   findOne(criteria: FindOptionsWhere<RoomEntity>): Promise<RoomEntity | null>;
   getAllUserIdsByRoom(room: RoomEntity): Promise<number[]>;
   addUserIntoRoom(user: UserEntity, room: RoomEntity): Promise<void>;
+  getRoomPreview(roomId: number): Promise<RoomPreviewDto>;
 }

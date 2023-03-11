@@ -137,7 +137,7 @@ export class RoomService implements RoomServiceInterface {
     return roomPreview;
   }
 
-  private async getRoomPreview(roomId: number): Promise<RoomPreviewDto> {
+  public async getRoomPreview(roomId: number): Promise<RoomPreviewDto> {
     const room = await this.roomRepository.findOne({
       where: { id: roomId },
       relations: { image: true, messages: true },

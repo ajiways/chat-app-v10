@@ -176,7 +176,9 @@ export class ApiWSGateway implements OnGatewayDisconnect {
       },
       room,
     );
+    const roomPreview = await this.roomService.getRoomPreview(room.id);
 
+    client.emit(ESendEvent.ROOM_ENTRY_SUCCEED, roomPreview);
     this.sendToClients(sendToIds, ESendEvent.NEW_USER, message);
   }
 

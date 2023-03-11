@@ -11,6 +11,18 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configServive = app.get<ConfigurationService>(ConfigurationService);
   app.useStaticAssets(resolve('./uploads'));
+
+  app.enableCors({
+    origin: function (origin, callback) {
+      if (!origin || configServive.env.FRONTEND_URL === origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  });
+
   app.enableCors({ origin: '*', credentials: true });
   app.use(cookieParser());
   app.useGlobalPipes(

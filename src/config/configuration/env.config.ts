@@ -42,6 +42,9 @@ export class EnvironmentConfig {
 
   @IsString()
   JWT_REFRESH_EXPIRES_IN: string;
+
+  @IsString()
+  FRONTEND_URL: string;
 }
 
 export default registerAs('testapp-env', function (): EnvironmentConfig {
