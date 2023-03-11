@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../../common/base.entity';
+import { ImageEntity } from '../../image/entities/image.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -17,4 +18,7 @@ export class UserEntity extends BaseEntity {
 
   @Column({ type: 'varchar', name: 'socket_id', nullable: true })
   socketId: string | null;
+
+  @OneToMany(() => ImageEntity, (image) => image.author)
+  images: ImageEntity[];
 }

@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { existsSync, mkdirSync } from 'fs';
 import { unlink } from 'fs/promises';
-import mime from 'mime';
+import * as mime from 'mime';
 import { TFile } from '../types/file.type';
 
 export function generateFilePath(): string {

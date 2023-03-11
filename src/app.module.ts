@@ -10,8 +10,9 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { MulterModule } from '@nestjs/platform-express';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ImageModule } from './modules/image/image.module';
 
-const modules = [AuthModule, UserModule];
+const modules = [AuthModule, UserModule, ImageModule];
 @Module({
   imports: [
     MulterModule.register(),
