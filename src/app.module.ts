@@ -11,8 +11,9 @@ import { MulterModule } from '@nestjs/platform-express';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ImageModule } from './modules/image/image.module';
+import { RoomModule } from './modules/room/room.module';
 
-const modules = [AuthModule, UserModule, ImageModule];
+const modules = [AuthModule, UserModule, ImageModule, RoomModule];
 @Module({
   imports: [
     MulterModule.register(),

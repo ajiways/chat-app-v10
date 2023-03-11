@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { BaseEntity } from '../../../common/base.entity';
+import { RoomEntity } from '../../room/entities/room.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import { EIMAGE_EXTENSION } from '../common/extensions';
 import { EImageState, EImageType } from '../common/types';
@@ -34,6 +35,9 @@ export class ImageEntity extends BaseEntity {
     default: EImageState.UNATTACHED,
   })
   state: EImageState;
+
+  @OneToOne(() => RoomEntity, (room) => room.image)
+  room: RoomEntity;
 
   @Column({ type: 'enum', enum: EImageType, nullable: false })
   type: EImageType;

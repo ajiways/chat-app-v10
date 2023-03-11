@@ -6,11 +6,14 @@ import { resolve } from 'path';
 import { AppModule } from './app.module';
 import { ConfigurationService } from './config/configuration/config.service';
 import * as cookieParser from 'cookie-parser';
+import { json, urlencoded } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configServive = app.get<ConfigurationService>(ConfigurationService);
   app.useStaticAssets(resolve('./uploads'));
+  app.use(json());
+  app.use(urlencoded());
   app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({

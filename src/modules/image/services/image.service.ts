@@ -103,4 +103,8 @@ export class ImageService implements ImageServiceInterface {
       throw new NotFoundException('Изображение не найдено');
     }
   }
+
+  public async getById(imageId: number): Promise<ImageEntity | null> {
+    return await this.imageRepository.findOneBy({ id: imageId });
+  }
 }
