@@ -34,9 +34,14 @@ export class EnvironmentConfig {
   @IsString()
   JWT_SECRET: string;
 
-  @Transform(({ value }: TTransformerValue) => Number(value))
-  @IsNumber()
-  JWT_EXPIRES_IN: number;
+  @IsString()
+  JWT_EXPIRES_IN: string;
+
+  @IsString()
+  JWT_REFRESH_SECRET: string;
+
+  @IsString()
+  JWT_REFRESH_EXPIRES_IN: string;
 }
 
 export default registerAs('testapp-env', function (): EnvironmentConfig {

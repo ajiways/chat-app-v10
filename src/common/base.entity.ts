@@ -1,8 +1,8 @@
 import { CreateDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 export class BaseEntity {
-  @PrimaryColumn({ generated: 'uuid', nullable: false, type: 'varchar' })
-  id: string;
+  @PrimaryColumn({ generated: 'increment', nullable: false, type: 'integer' })
+  id: number;
 
   @CreateDateColumn()
   createdAt: Date;

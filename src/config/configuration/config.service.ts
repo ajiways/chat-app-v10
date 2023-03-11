@@ -26,7 +26,6 @@ export class ConfigurationService {
   jwtOptions(): JwtModuleOptions {
     return {
       secret: this.env.JWT_SECRET,
-      secretOrPrivateKey: this.env.JWT_SECRET,
       signOptions: {
         expiresIn: this.env.JWT_EXPIRES_IN,
       },

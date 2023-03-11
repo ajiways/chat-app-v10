@@ -7,9 +7,14 @@ import { ConfigurationModule } from './config/configuration/config.module';
 import { ConfigurationService } from './config/configuration/config.service';
 import { resolve } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { MulterModule } from '@nestjs/platform-express';
+import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
 
+const modules = [AuthModule, UserModule];
 @Module({
   imports: [
+    MulterModule.register(),
     ServeStaticModule.forRoot({
       rootPath: resolve('./uploads'),
       serveRoot: '/uploads',
@@ -21,6 +26,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       inject: [ConfigurationService],
     }),
     ConfigurationModule,
+    ...modules,
   ],
   controllers: [],
   providers: [],
