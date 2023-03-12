@@ -62,7 +62,7 @@ export class MessageService implements MessageServiceInterface {
 
     return messages.reverse().map((message) =>
       plainToInstance(MessagePreviewDto, {
-        author: message.author.login,
+        author: message?.author?.login || 'Система',
         date: new Date(message.createdAt).getTime(),
         message: message.message,
         roomId: room.id,

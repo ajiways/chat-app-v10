@@ -211,6 +211,10 @@ export class RoomService implements RoomServiceInterface {
     user: UserEntity,
     room: RoomEntity,
   ): Promise<void> {
-    await this.userRoomRepository.save({ user, room });
+    await this.userRoomRepository.save({
+      user,
+      room,
+      memberStatus: EMemberStatus.MEMBER,
+    });
   }
 }
